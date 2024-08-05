@@ -11,39 +11,16 @@ from django.shortcuts import render
 def survey_view(request):
     return render(request, 'survey/survey.html')
 
-
-
 def results_view(request):
-    responses = Response.objects.all()
-    trait_counts = defaultdict(int)
-    traits = {
-        "Neuroticism": ["Very Accurate", "Moderately Accurate"],
-        "Extraversion": ["Very Accurate"],
-        "Openness to Experience": ["Very Accurate", "Moderately Accurate", "Neither Accurate Nor Inaccurate"],
-        "Agreeableness": ["Very Inaccurate", "Moderately Inaccurate"],
-        "Conscientiousness": ["Moderately Inaccurate", "Very Inaccurate", "Neither Accurate Nor Inaccurate"]
-    }
+    return render(request, 'survey/results.html')  # Assuming you have a results.html
 
-    for response in responses:
-        for trait, relevant_responses in traits.items():
-            if response.option.text in relevant_responses:
-                trait_counts[trait] += 1
 
-    labels = list(trait_counts.keys())
-    counts = list(trait_counts.values())
-    colors = ['purple', 'blue', 'pink', 'yellow', 'green']
+import os
+from django.conf import settings
 
-    plt.figure(figsize=(10, 6))
-    plt.bar(labels, counts, color=colors)
-    plt.xlabel('Personality Traits')
-    plt.ylabel('Count')
-    plt.title('Survey Responses by Personality Traits')
-    plt.xticks(rotation=45)
-    plt.tight_layout()
-
-    buf = io.BytesIO()
-    plt.savefig(buf, format='png')
-    buf.seek(0)
-    string = base64.b64encode(buf.read())
-    uri = 'data:image/png;base64,' + urllib.parse.quote(string)
-    return render(request, 'survey/results.html', {'data': uri})
+def survey_view(request):
+    template_dirs = settings.TEMPLATES[0]['DIRS']
+    app_dirs = settings.TEMPLATES[0]['APP_DIRS']
+    print(f"Template Dirs: {template_dirs}")
+    print(f"App Dirs: {app_dirs}")
+    return render(request, 'survey/survey.html')
