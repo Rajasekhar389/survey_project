@@ -6,16 +6,12 @@ import matplotlib.pyplot as plt
 import io
 import urllib, base64
 
+from django.shortcuts import render
+
 def survey_view(request):
-    if request.method == 'POST':
-        form = SurveyForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('survey')
-    else:
-        questions = Question.objects.all()
-        forms = [SurveyForm(initial={'question': q}) for q in questions]
-        return render(request, 'survey/survey.html', {'forms': forms})
+    return render(request, 'survey/survey.html')
+
+
 
 def results_view(request):
     responses = Response.objects.all()
