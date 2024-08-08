@@ -9,3 +9,38 @@
     <a href="{% url 'survey' %}">Take Survey Again</a>
 </body>
 </html>
+
+<!-- Add this in results.html -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<canvas id="resultsChart"></canvas>
+<script>
+var ctx = document.getElementById('resultsChart').getContext('2d');
+var chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: [
+            {% for option in question.options.all %}
+                '{{ option.option_text }}',
+            {% endfor %}
+        ],
+        datasets: [{
+            label: 'Votes',
+            data: [
+                {% for option in question.options.all %}
+                    {{ option.votes }},
+                {% endfor %}
+            ],
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>

@@ -1,4 +1,6 @@
-from .models import Questions,Options,Response
-admin.site.register(Questions)
-admin.site.register(Options)
+from django.contrib.sites import admin
+
+from .models import Question,Option,Response
+admin.site.register(Question)
+admin.site.register(Option)
 admin.site.register(Response)

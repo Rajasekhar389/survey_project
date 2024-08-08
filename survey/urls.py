@@ -1,7 +1,8 @@
+from django.contrib import admin
 from django.urls import path
-from .views import survey_view, results_view
+from survey import views
 
 urlpatterns = [
-    path('', survey_view, name='survey'),
-    path('results/', results_view, name='results'),
+    path('admin/', admin.site.urls),
+    path('survey/', views.survey, name='survey'),
 ]
